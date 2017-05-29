@@ -1,8 +1,8 @@
 const express = require('express');
-const hbs = require('hbs');
-const fs = require('fs');
+const hbs = require('hbs'); //for Handlebars view engine
+const fs = require('fs'); //for file system commands and functions
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3000; //to let Heroku define port otherwise 3000 locally
 var app = express (); // Used for middleware to run app.use throughout the app
 
 hbs.registerPartials(__dirname + '/views/partials');
@@ -22,14 +22,14 @@ app.use((req, res, next) => {
   next();
 });
 
-//then Check if we're in maintenance mode
-app.use((req, res, next) => {
-  res.render('maintenance.hbs', {
-  maintMessage: 'Site currently being updated.'
-  });
-});
+// uncomment if in maintenance mode
+// app.use((req, res, next) => {
+//   res.render('maintenance.hbs', {
+//   maintMessage: 'Site currently being updated.'
+//   });
+// });
 
-//Then run other requests
+//run public
 app.use(express.static(__dirname + '/public'));
 
 hbs.registerHelper('getCurrentYear', () => {
@@ -40,7 +40,7 @@ hbs.registerHelper('screamIt', (text) => {
   return text.toUpperCase();
 });
 
-app.get('/home', (req, res) => {
+app.get('/', (req, res) => {
   //res.send('<h1>Hello Express!</h1>');
   res.render('home.hbs',{
     pageTitle: 'Home Page',
@@ -54,13 +54,21 @@ app.get('/about', (req, res) => {
   });
 });
 
+app.get('/projects', (req, res) => {
+  //res.send('<h1>Hello Express!</h1>');
+  res.render('projects.hbs',{
+    pageTitle: 'Projects',
+    welcomeMessage: 'My Portfolio.'
+  });
+});
+
 app.get('/bad',(req,res) => {
   res.send( {
       errorMessage: 'Unable to handle request'
   })
 });
 
-// App listening on port 3000
+// App listening on var port
 app.listen(port, () =>{
   console.log(`Server is up on port ${port}`);
 });
