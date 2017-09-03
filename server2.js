@@ -18,12 +18,12 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use((req, res, next) => {
-  res.render('maintenance.hbs', {
-    pageTitle: 'Maintenance Page',
-    maintMessage: 'Site under maintenance'
-  });
-});
+// app.use((req, res, next) => {
+//   res.render('maintenance.hbs', {
+//     pageTitle: 'Maintenance Page',
+//     maintMessage: 'Site under maintenance'
+//   });
+// });
 
 app.use(express.static(__dirname + '/public')); //to set a static directory for public files
 
@@ -41,6 +41,15 @@ app.get('/', (req, res) => {
     pageTitle: 'Home Page',
     // currentYear: new Date().getFullYear(),
     welcomeMessage: 'Welcome to my website'
+  });
+});
+
+app.get('/projects', (req, res) => {
+  //res.send('<h1>Hello Express</h1>');
+  res.render('projects2.hbs', {
+    pageTitle: 'Projects Page',
+    // currentYear: new Date().getFullYear(),
+    welcomeMessage: 'Welcome to Projects'
   });
 });
 
